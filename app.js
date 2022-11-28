@@ -14,8 +14,8 @@ const conn = maria.createConnection({
   host:'127.0.0.1',
   port:3307,
   user:'root',
-  password:'910226',
-  database:'young'
+  password:'YOUR PW',
+  database:'YOUR DB'
 });
 
 conn.connect();
@@ -51,45 +51,26 @@ app.use(bodyParser.json())
 //   }
 // })
 
-// body 받아서 db에 추가
-// app.post('/post', (req, res)=>{
-//   console.log("통신")
-//   console.log(req.body)
-  
-//   const {id, name, profile} = req.body
-    
-//   var sql = 'INSERT INTO AUTHOR(id,name,profile) VALUES(?,?,?)';
-//   var params = [id, name, profile]
-//   conn.query(sql, params, (err, rows, fields)=>{
-//     if(err){
-//       res.send(err)
-//     }else{
-//       res.send(rows)
-//       console.log("success")
-//     }
-//   })
-// })
-
-
-//update 문
+//body 받아서 db에 추가
 app.post('/post', (req, res)=>{
   console.log("통신")
+  console.log(req.body)
   
-  
-  const {profile} = req.body
-  console.log(profile)
-  var sql = 'UPDATE AUTHOR SET profile="'+profile+'" where id=14';
-  var params = profile
+  const {id, name, profile} = req.body
+    
+  var sql = 'INSERT INTO AUTHOR(id,name,profile) VALUES(?,?,?)';
+  var params = [id, name, profile]
   conn.query(sql, params, (err, rows, fields)=>{
     if(err){
       res.send(err)
-      console.log(err)
     }else{
       res.send(rows)
       console.log("success")
     }
   })
 })
+
+
 
 app.get('/:id', (req, res)=>{
     const values = req.params.id.toString()
