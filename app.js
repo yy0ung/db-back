@@ -15,7 +15,7 @@ const conn = maria.createConnection({
   port:3307,
   user:'root',
   password:'910226',
-  database:'young'
+  database:'test_db'
 });
 
 conn.connect();
@@ -73,13 +73,12 @@ app.use(bodyParser.json())
 
 //update 문
 app.post('/post', (req, res)=>{
-  console.log("통신")
-  
-  
-  const {profile} = req.body
-  console.log(profile)
-  var sql = 'UPDATE AUTHOR SET profile="'+profile+'" where id=14';
-  var params = profile
+ 
+
+  const {attr} = req.body
+  console.log(attr)
+  var sql = 'UPDATE attr_scan SET head_attr="'+attr+'" where attr_name="나이"';
+  var params = attr
   conn.query(sql, params, (err, rows, fields)=>{
     if(err){
       res.send(err)
@@ -91,9 +90,9 @@ app.post('/post', (req, res)=>{
   })
 })
 
-app.get('/:id', (req, res)=>{
-    const values = req.params.id.toString()
-    var sql = 'SELECT * FROM '+values
+app.get('/attr/dic', (req, res)=>{
+    // const values = req.params.id.toString()
+    var sql = 'SELECT * FROM attr_dic'
     
     conn.query(sql ,(err,row,fields)=>{
       res.send(row)
