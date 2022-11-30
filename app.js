@@ -71,10 +71,8 @@ app.use(bodyParser.json())
 // })
 
 
-//update 문
-app.post('/post', (req, res)=>{
- 
-
+// 대표속성 업데이트
+app.post('/post/attr', (req, res)=>{
   const {attr} = req.body
   console.log(attr)
   var sql = 'UPDATE attr_scan SET head_attr="'+attr+'" where attr_name="나이"';
@@ -90,6 +88,39 @@ app.post('/post', (req, res)=>{
   })
 })
 
+// 사용자 추가 대표속성 업데이트
+app.post('/post/attr/dic', (req, res)=>{
+  const {id, attr} = req.body
+  var sql = 'INSERT INTO attr_dic(id,attr) VALUES(?,?)';
+  var params = [id, attr]
+  conn.query(sql, params, (err, rows, fields)=>{
+    if(err){
+      res.send(err)
+      console.log(err)
+    }else{
+      res.send(rows)
+      console.log("success")
+    }
+  })
+})
+
+// 표준결합키 업데이트
+app.post('/post/key', (req, res)=>{
+  const {key} = req.body
+  var sql = 'UPDATE attr_scan SET head_key="'+key+'" where attr_name="나이"';
+  var params = key
+  conn.query(sql, params, (err, rows, fields)=>{
+    if(err){
+      res.send(err)
+      console.log(err)
+    }else{
+      res.send(rows)
+      console.log("success")
+    }
+  })
+})
+
+//대표속성 사전 값 불러오기
 app.get('/attr/dic', (req, res)=>{
     // const values = req.params.id.toString()
     var sql = 'SELECT * FROM attr_dic'
@@ -99,3 +130,25 @@ app.get('/attr/dic', (req, res)=>{
       //res.send(fields);
     })
   });
+
+//표준결합키 사전 값 불러오기
+app.get('/key/dic', (req, res)=>{
+  // const values = req.params.id.toString()
+  var sql = 'SELECT * FROM key_dic'
+  
+  conn.query(sql ,(err,row,fields)=>{
+    res.send(row)
+    //res.send(fields);
+  })
+});
+
+//스캔 값 불러오기
+app.get('/scan', (req, res)=>{
+  // const values = req.params.id.toString()
+  var sql = 'SELECT * FROM attr_scan'
+  
+  conn.query(sql ,(err,row,fields)=>{
+    res.send(row)
+    //res.send(fields);
+  })
+});
