@@ -114,3 +114,20 @@ app.get('/scan', (req, res)=>{
     res.send(row)
   })
 });
+
+// 속성편집
+// 데이터타입 편집
+app.put('/edit/type', (req, res)=>{
+  const {type, name} = req.body
+  var sql = 'UPDATE attr_scan SET attr_type=(?) where attr_name=(?)';
+  var params = [type, name]
+  conn.query(sql, params, (err, rows, fields)=>{
+    if(err){
+      res.send(err)
+      console.log(err)
+    }else{
+      res.send(rows)
+      console.log("success")
+    }
+  })
+})
