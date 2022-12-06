@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs')
 const app = express();
 const path = require('path')
 const qs = require('querystring')
@@ -10,16 +11,30 @@ const server = app.listen(3000, ()=>{
 
 //connect db
 const maria = require('mysql');
+const dbInfo = JSON.parse(fs.readFileSync('./db.json'));
 const conn = maria.createConnection({
-  host:'127.0.0.1',
-  port:3307,
-  user:'root',
-  password:'910226',
-  database:'test_db'
+  host: dbInfo.host,
+  port: dbInfo.port,
+  user: dbInfo.user,
+  password: dbInfo.password,
+  database: dbInfo.database
 });
 
 conn.connect();
 app.use(bodyParser.json())
+
+
+//db connect 
+app.post('/db/connect', (req, res)=>{
+  const {host, port, db, user, pw} = req.body
+  console.log(dbInfo.database)
+  
+  if(dbInfo.host===host && dbInfo.port.toString()===port && dbInfo.database===db&& dbInfo.user===user && dbInfo.password===pw){
+        res.send(true)
+      }else{
+        res.send(false)
+      }
+})
 
 
 // 사용자가 추가한 속성 att dic 에 추가
@@ -131,3 +146,19 @@ app.put('/edit/type', (req, res)=>{
     }
   })
 })
+
+// 속성 삭제
+app.delete('/delete/attr', (req,res)=>{
+  var sql = 'DELETE FROM attr_scan where attr_name=(?)'
+  var params = req.body.name
+  conn.query(sql, params, (err, rows, fields)=>{
+    if(err){
+      res.send(err)
+      console.log(err)
+    }else{
+      res.send(rows)
+      console.log("success")
+    }
+  })
+})
+
