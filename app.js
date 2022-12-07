@@ -8,6 +8,11 @@ const server = app.listen(3000, ()=>{
   console.log('start server');
 });
 
+// var filePath = path.join(__dirname, "sample.csv")
+// const csv = fs.readFileSync(filePath, {encoding : "utf-8"})
+// const rows = csv.split("\r\n")
+// console.log(rows)
+
 
 //connect db
 const maria = require('mysql');
@@ -160,5 +165,25 @@ app.delete('/delete/attr', (req,res)=>{
       console.log("success")
     }
   })
+})
+
+//search demo
+app.get('/scan/done', (req, res)=>{
+  var sql = 'SELECT * FROM scan_done'
+    conn.query(sql ,(err,row,fields)=>{
+      res.send(row)
+    })
+})
+
+//search demo (속성 이름으로 검사)
+app.post('/search/table', (req, res)=>{
+  const {keyword} = req.body
+  console.log(keyword)
+  var sql = "select * from attr_scan where attr_name like'%"+keyword+"%'"
+  
+    conn.query(sql, (err,row,fields)=>{
+      res.send(row)
+      console.log(row)
+    })
 })
 
