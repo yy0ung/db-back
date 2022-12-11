@@ -3,7 +3,9 @@ const fs = require('fs')
 const app = express();
 const path = require('path')
 const qs = require('querystring')
+const multer = require('multer')
 const bodyParser = require('body-parser')
+
 const server = app.listen(3000, ()=>{
   console.log('start server');
 });
@@ -39,6 +41,39 @@ app.post('/db/connect', (req, res)=>{
       }else{
         res.send(false)
       }
+})
+
+//csv upload
+try{ fs.readdirSync('asset') }
+catch(e){ console.log('not exist directory')
+          fs.mkdirSync('asset')}
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, done)=>{
+      done(null, 'asset/')
+    },
+    filename: (req,file,done)=>{
+      const ext = path.extname(file.originalname)
+      done(null, path.basename(file.originalname, ext))
+    }
+  })
+})
+app.post('/fileupload', upload.single('file'), (req,res,next)=>{
+  //console.log(req.file.filename.toString())
+  
+  res.send(req.file.filename)
+  const fileName = './asset/'+req.file.filename+"'"
+  var sql = "LOAD DATA LOCAL INFILE ? INTO TABLE ? FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS"
+  var params = ["./asset/Fitness", req.file.filename]
+  conn.query(sql, params, (err,row,fields)=>{
+    if(err){
+      console.log(err)
+    }else{
+      console.log("success")
+      res.send("업로드")
+    }
+  })
 })
 
 
@@ -167,23 +202,26 @@ app.delete('/delete/attr', (req,res)=>{
   })
 })
 
-//search demo
+//검색어 + 검색 버튼 눌렀을 때
+//스캔이 끝난 테이블을 저장한 테이블에 접근해서 검색해야할 테이블을 받아옴.
 app.get('/scan/done', (req, res)=>{
+  //해당 테이블 읽어오기
   var sql = 'SELECT * FROM scan_done'
     conn.query(sql ,(err,row,fields)=>{
       res.send(row)
     })
 })
 
-//search demo (속성 이름으로 검사)
+//검색어에 해당하는 테이블을 찾아서 프론트에 send해줌
 app.post('/search/table', (req, res)=>{
   const {keyword} = req.body
   console.log(keyword)
+  // (테이블명 무시하고 봐주세요!) 검색어 = keyword / 속성명에 검색어가 포함된 테이블을 불러와라는 명령.
   var sql = "select * from attr_scan where attr_name like'%"+keyword+"%'"
   
     conn.query(sql, (err,row,fields)=>{
+      //프론트에 보내줌
       res.send(row)
-      console.log(row)
     })
 })
 
