@@ -60,25 +60,12 @@ function create_statistic(tablename){
     if (err) throw err;
     console.log("Table created");
   });
-
-  conn.query("select 속성명 from statistic_attribute", function(err, row, fields){
-    for await (var i=0; i<row.length;i++){
-      tmp=row[i].속성명;
-      conn.query("SELECT "+row[i].속성명+" a FROM "+tablename, function(err,r,fields){
-        sp=0;
-        var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/;
-        for(var j=0;j<r.length;j++){
-          if(special_pattern.test(r[j].a) === true){
-            sp+=1;
-          }
-        }
-        //conn.query("UPDATE statistic_attribute SET 특수문자_포함_레코드_수="+sp+" WHERE 속성명='"+row[i].속성명+"'");
-        console.log(row[i],i);
-      });
-      //console.log(row[i].속성명);
-      conn.query("UPDATE statistic_attribute SET NULL_레코드_수 = (SELECT COUNT(*) FROM "+tablename+" WHERE "+row[i].속성명+" IS NULL) WHERE 속성명='"+row[i].속성명+"'");
-      conn.query("UPDATE statistic_attribute SET NULL_레코드_비율 = NULL_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+row[i].속성명+"'");
-      conn.query("UPDATE statistic_attribute SET 상이_범주_값 = (SELECT COUNT(DISTINCT "+row[i].속성명+") FROM "+tablename+") WHERE 속성명='"+row[i].속성명+"'");
+  
+  conn.query("select 속성명 from statistic_attribute", async function(err, row, fields){
+    for (var att of row){
+      conn.query("UPDATE statistic_attribute SET NULL_레코드_수 = (SELECT COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" IS NULL) WHERE 속성명='"+att.속성명+"'");
+      conn.query("UPDATE statistic_attribute SET NULL_레코드_비율 = NULL_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
+      conn.query("UPDATE statistic_attribute SET 상이_범주_값 = (SELECT COUNT(DISTINCT "+att.속성명+") FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
     }
   });
   return ;
