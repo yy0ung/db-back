@@ -43,7 +43,7 @@ app.post('/db/connect', (req, res)=>{
       }
 })
 
-//csv upload
+//csv upload 파트 완성
 try{ fs.readdirSync('asset') }
 catch(e){ console.log('not exist directory')
           fs.mkdirSync('asset')}
@@ -60,18 +60,17 @@ const upload = multer({
   })
 })
 app.post('/fileupload', upload.single('file'), (req,res,next)=>{
-  //console.log(req.file.filename.toString())
+  const fileName = './asset/'+req.file.filename
+  var sql = "LOAD DATA LOCAL INFILE ? INTO TABLE "+req.file.filename+" FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS"
   
-  res.send(req.file.filename)
-  const fileName = './asset/'+req.file.filename+"'"
-  var sql = "LOAD DATA LOCAL INFILE ? INTO TABLE ? FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS"
-  var params = ["./asset/Fitness", req.file.filename]
+  var params = [fileName]
   conn.query(sql, params, (err,row,fields)=>{
     if(err){
-      console.log(err)
+      //throw err
+      return res.send(err)
     }else{
       console.log("success")
-      res.send("업로드")
+      return res.send("성공")
     }
   })
 })
