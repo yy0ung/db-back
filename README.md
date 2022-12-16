@@ -17,3 +17,6 @@ node app 으로 실행 시 다음과 같은 테이블이 2개 생성된다.
 수치 속성(category_attribute)
 ![image](https://user-images.githubusercontent.com/51961041/207077405-4f338b45-1ecd-4bff-840b-86138a8e35ca.png)
 
+****
+![image](https://user-images.githubusercontent.com/51961041/208027977-f3460efc-37fe-44d9-9a90-ec17fbe19e72.png)
+해당 위치의 본인 db 이름으로 변경해서 
