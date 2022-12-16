@@ -9,6 +9,7 @@ $ npm install mysql
 $ npm install body-parser
 
 node app 으로 실행 시 다음과 같은 테이블이 3개 생성된다.
+
 ![image](https://user-images.githubusercontent.com/51961041/208028454-cb85fe76-3c93-4814-af2f-a8017b8c476c.png)
 
 ![image](https://user-images.githubusercontent.com/51961041/208028330-a18c1035-aded-4b16-97ee-4983d36c1d11.png)
