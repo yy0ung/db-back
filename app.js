@@ -111,9 +111,9 @@ app.post('/post/key/dic', (req, res)=>{
 
 // scan table에 대표속성 업데이트
 app.put('/put/attr', (req, res)=>{
-  const {attr, name} = req.body
+  const {table, attr, name} = req.body
   console.log(attr, name)
-  var sql = 'UPDATE attr_scan SET head_attr=(?) where attr_name=(?)';
+  var sql = 'UPDATE '+table+' SET 대표_속성=(?) where 속성명=(?)';
   var params = [attr, name]
   conn.query(sql, params, (err, rows, fields)=>{
     if(err){
@@ -280,10 +280,20 @@ app.post('/scan/scantable', (res,req)=>{
   
 })
 
-app.get('/api/table',(req,res) => {
+app.get('/api/categorytable',(req,res) => {
   //"SELECT table_name 테이블명 FROM information_schema.tables WHERE table_schema= 'dbproject'"
   conn.query(
     "SELECT * FROM 1_fitness_measurement_category_attribute",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+app.get('/api/statistictable',(req,res) => {
+  //"SELECT table_name 테이블명 FROM information_schema.tables WHERE table_schema= 'dbproject'"
+  conn.query(
+    "SELECT * FROM 1_fitness_measurement_statistic_attribute",
     (err, rows, fields) => {
       res.send(rows);
     }
