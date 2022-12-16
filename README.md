@@ -21,6 +21,7 @@ node app 으로 실행 시 다음과 같은 테이블이 3개 생성된다.
 ![image](https://user-images.githubusercontent.com/51961041/207077405-4f338b45-1ecd-4bff-840b-86138a8e35ca.png)
 
 테이블 속성 도메인 스캔(selecttable)
+
 ![image](https://user-images.githubusercontent.com/51961041/208028387-113dd8b8-ff54-42ba-834a-c5ecd71465ab.png)
 
 ****
