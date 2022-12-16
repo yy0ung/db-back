@@ -5,6 +5,7 @@ const path = require('path')
 const qs = require('querystring')
 const multer = require('multer')
 const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended:true}))
 
 const server = app.listen(3000, ()=>{
   console.log('start server');
@@ -129,8 +130,8 @@ app.put('/put/attr', (req, res)=>{
 
 // scan table에 표준결합키 업데이트
 app.put('/put/key', (req, res)=>{
-  const {key, name} = req.body
-  var sql = 'UPDATE attr_scan SET head_key=(?) where attr_name=(?)';
+  const {table, key, name} = req.body
+  var sql = 'UPDATE '+table+' SET 대표_결합키=(?) where 속성명=(?)';
   var params = [key, name]
   conn.query(sql, params, (err, rows, fields)=>{
     if(err){
@@ -225,8 +226,8 @@ app.post('/search/table', (req, res)=>{
 })
 
 //스캔 완성본
-async function create_category(tablename){
-  var params = tablename.toString()+"_category_attribute"
+async function create_statistic(tablename){
+  var params = tablename.toString()+"_statistic_attribute"
   var sql = "create table if not exists "+params+"(속성명 VARCHAR(255), 데이터_타입 TEXT, NULL_레코드_수 int, NULL_레코드_비율 real, 상이_수치_값 int, 최대_값 int, 최소_값 int, 영_레코드_수 int, 영_레코드_비율 int, 대표_속성 TEXT, 결합키_후보 TEXT, 대표_결합키 VARCHAR(255));";
   conn.query(sql, function (err, result) {
     if (err) throw err;
@@ -251,8 +252,8 @@ async function create_category(tablename){
   return ;
 }
 
-async function create_statistic(tablename){
-  var params = tablename.toString()+"_statistic_attribute"
+async function create_category(tablename){
+  var params = tablename.toString()+"_category_attribute"
   var sql = "create table if not exists "+params+"(속성명 VARCHAR(255), 데이터_타입 TEXT, NULL_레코드_수 int, NULL_레코드_비율 real, 상이_범주_값 int, 특수문자_포함_레코드_수 int, 특수문자_포함_레코드_비율 real, 대표_속성 TEXT, 결합키_후보 TEXT, 대표_결합키 VARCHAR(255));";
   conn.query(sql, function (err, result) {
     if (err) throw err;
@@ -274,26 +275,31 @@ async function create_statistic(tablename){
   return ;
 }
 
-app.post('/scan/scantable', (res,req)=>{
-  create_category('1_fitness_measurement');
-  create_statistic('1_fitness_measurement');
+app.post('/scan/scantable', (req,res)=>{
+  const {table} = req.body
+  
+  create_category(table);
+  create_statistic(table);
   
 })
 
-app.get('/api/categorytable',(req,res) => {
+app.get('/api/categorytable/:table',(req,res) => {
   //"SELECT table_name 테이블명 FROM information_schema.tables WHERE table_schema= 'dbproject'"
+  const {table} = req.params
   conn.query(
-    "SELECT * FROM 1_fitness_measurement_category_attribute",
+    "SELECT * FROM "+table+"_category_attribute",
     (err, rows, fields) => {
       res.send(rows);
     }
   )
 });
 
-app.get('/api/statistictable',(req,res) => {
+app.get('/api/statistictable/:table',(req,res) => {
   //"SELECT table_name 테이블명 FROM information_schema.tables WHERE table_schema= 'dbproject'"
+  const {table} = req.params
+  console.log(table)
   conn.query(
-    "SELECT * FROM 1_fitness_measurement_statistic_attribute",
+    "SELECT * FROM "+table+"_statistic_attribute",
     (err, rows, fields) => {
       res.send(rows);
     }
