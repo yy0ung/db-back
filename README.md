@@ -25,5 +25,7 @@ node app 으로 실행 시 다음과 같은 테이블이 3개 생성된다.
 ![image](https://user-images.githubusercontent.com/51961041/208028387-113dd8b8-ff54-42ba-834a-c5ecd71465ab.png)
 
 ****
+위의 파일들을 본인 로컬에서 실행 시 본인이 사용하는 db 이름과 일치시켜야 함
+
 ![image](https://user-images.githubusercontent.com/51961041/208027977-f3460efc-37fe-44d9-9a90-ec17fbe19e72.png)
 해당 위치의 본인 db 이름으로 변경해서 진행
