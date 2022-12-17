@@ -19,8 +19,8 @@ statistic.create = function (tablename){
             conn.query("UPDATE statistic_attribute SET NULL_레코드_수 = (SELECT COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" IS NULL) WHERE 속성명='"+att.속성명+"'");
             conn.query("UPDATE statistic_attribute SET NULL_레코드_비율 = NULL_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
             conn.query("UPDATE statistic_attribute SET 상이_범주_값 = (SELECT COUNT(DISTINCT "+att.속성명+") FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
-            //
-            conn.query("UPDATE statistic_attribute SET 결합키_후보 = (SELECT COUNT FROM)");
+            //이지
+            conn.query("UPDATE statistic_attribute SET 결합키_후보 = '"+att.속성명+"' WHERE (속성명='"+att.속성명+"') AND (상이_범주_값 + NULL_레코드_수) > (SELECT COUNT(*) FROM "+tablename+")*9/10");
           }
         });
         return ;
