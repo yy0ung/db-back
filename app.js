@@ -18,17 +18,17 @@ const conn = maria.createConnection({
   database:conf.database
 });
 conn.connect();
-// console.log("SELECT") ///////////////////////////////////asdfasdf
+
 var select_table = require('./select_table');
 select_table.create();
 
 //var category = require('./category');
-// console.log("figure") ///////////////////////////////////asdfasdf
+// 이상현, 이름 category->figure로 바꿈. 수치속성 관련이라.
 var category = require('./figure');
 category.create('1_fitness_measurement');
 
 // var statistic = require('./statistic');
-// console.log("category") ///////////////////////////////////asdfasdf
+// 이상현, 이름 statistic->category로 바꿈. 범주 속성 관련이라.
 var statistic = require('./category');
 statistic.create('1_fitness_measurement');
 
