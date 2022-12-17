@@ -18,18 +18,19 @@ const conn = maria.createConnection({
   database:conf.database
 });
 conn.connect();
-
+// console.log("SELECT") ///////////////////////////////////asdfasdf
 var select_table = require('./select_table');
 select_table.create();
 
-var category = require('./category');
+//var category = require('./category');
+// console.log("figure") ///////////////////////////////////asdfasdf
+var category = require('./figure');
 category.create('1_fitness_measurement');
 
-var statistic = require('./statistic');
+// var statistic = require('./statistic');
+// console.log("category") ///////////////////////////////////asdfasdf
+var statistic = require('./category');
 statistic.create('1_fitness_measurement');
-
-var scan_table = require('./scan_table');
-scan_table.create('1_fitness_measurement');
 
 app.get('/api/table',(req,res) => {
   conn.query(
@@ -40,7 +41,7 @@ app.get('/api/table',(req,res) => {
   )
 });
 
-app.get('/api/table/1_fitness_measurement/category',(req,res) => {
+app.get('/api/table/1_fitnescas_measurement/tegory',(req,res) => {
   conn.query(
     "SELECT * FROM category_attribute",
     (err, rows, fields) => {
