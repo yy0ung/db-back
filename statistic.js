@@ -20,7 +20,8 @@ statistic.create = function (tablename){
             conn.query("UPDATE statistic_attribute SET NULL_레코드_비율 = NULL_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
             conn.query("UPDATE statistic_attribute SET 상이_범주_값 = (SELECT COUNT(DISTINCT "+att.속성명+") FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
             //이지
-            conn.query("UPDATE statistic_attribute SET 결합키_후보 = '"+att.속성명+"' WHERE (속성명='"+att.속성명+"') AND (상이_범주_값 + NULL_레코드_수) > (SELECT COUNT(*) FROM "+tablename+")*9/10");
+            conn.query("UPDATE statistic_attribute SET 결합키_후보 = '"+att.속성명+"' WHERE (속성명='"+att.속성명+"') AND (상이_범주_값 + NULL_레코드_수) >= (SELECT COUNT(*) FROM "+tablename+")*9/10");
+            //WHERE 속성명='"+att.속성명+"' AND (SELECT COUNT(*) FROM "+tablename+" WHERE (COUNT('"+att.속성명+"' ) >1 ) AS R < (((SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"')/10) 
           }
         });
         return ;
