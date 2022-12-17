@@ -28,6 +28,9 @@ category.create('1_fitness_measurement');
 var statistic = require('./statistic');
 statistic.create('1_fitness_measurement');
 
+var scan_table = require('./scan_table');
+scan_table.create('1_fitness_measurement');
+
 app.get('/api/table',(req,res) => {
   conn.query(
     "SELECT * FROM selecttable",
