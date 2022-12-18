@@ -8,7 +8,7 @@ select_table.create = function (){
           if (err) throw err;
           console.log("Table created");
         });
-        var sql = "insert into selecttable(테이블_명, 레코드_수) select table_name, TABLE_ROWS from INFORMATION_SCHEMA.tables where table_schema='dbproject' and not table_name in ('selecttable','statistic_attribute','category_attribute','scantable')";
+        var sql = "insert into selecttable(테이블_명, 레코드_수) select table_name, TABLE_ROWS from INFORMATION_SCHEMA.tables where table_schema='dbproject' and not table_name in ('selecttable','figure_attribute','category_attribute','scantable')";
         conn.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Table created");

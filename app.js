@@ -22,16 +22,21 @@ conn.connect();
 var select_table = require('./select_table');
 select_table.create();
 
-var category = require('./category');
-category.create('1_fitness_measurement');
-
 var statistic = require('./statistic');
 statistic.create('1_fitness_measurement');
+
+var category = require('./category');
+category.create('1_fitness_measurement');
 
 var scan_table = require('./scan_table');
 scan_table.create('1_fitness_measurement');
 
 var search = require('./search');
+
+var single_join = require('./single_join_result');
+single_join.create('1_fitness_measurement','2_physical_instructor_practice_info');
+var multi_join = require('./multi_join_result');
+multi_join.create('1_fitness_measurement','2_physical_instructor_practice_info');
 
 //선택 가능한 테이블 목록
 //대표속성은 하나만 입력되어 있을 경우 검색 가능
@@ -53,7 +58,17 @@ app.get('/api/table',(req,res) => {
   )
 });
 
-//1_fitness_measurement의 범주 속성 목록
+//1_fitness_measurement의 수치 속성 목록
+app.get('/api/table/1_fitness_measurement/statistic',(req,res) => {
+  conn.query(
+    "SELECT * FROM statistic_attribute",
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
+//범주 속성 목록
 app.get('/api/table/1_fitness_measurement/category',(req,res) => {
   conn.query(
     "SELECT * FROM category_attribute",
@@ -63,12 +78,8 @@ app.get('/api/table/1_fitness_measurement/category',(req,res) => {
   )
 });
 
-//수치 속성 목록
-app.get('/api/table/1_fitness_measurement/statistic',(req,res) => {
-  conn.query(
-    "SELECT * FROM statistic_attribute",
-    (err, rows, fields) => {
-      res.send(rows);
-    }
-  )
+/*
+app.get('/api/single',(req,res)=>{
+
 });
+*/
