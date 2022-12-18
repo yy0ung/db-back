@@ -8,24 +8,11 @@ $ npm install mysql
 
 $ npm install body-parser
 
-node app 으로 실행 시 다음과 같은 테이블이 3개 생성된다.
+statistic.js파일이 범주형 스캔 파일이라서 이름을 category.js로
+category.js파일이 수치형 스캔 파일이라서 이름을 figure.js로 바꿈.
 
-![image](https://user-images.githubusercontent.com/51961041/208028454-cb85fe76-3c93-4814-af2f-a8017b8c476c.png)
+app.js에서도 처리 함.
 
-![image](https://user-images.githubusercontent.com/51961041/208028330-a18c1035-aded-4b16-97ee-4983d36c1d11.png)
+category.js와 figure.js에서 결합키 후보 Boolean으로 바꿈. (insert할 때 0 또는 1로 넣어야 함.)
 
-범주 속성(statistic_attribute)
-![image](https://user-images.githubusercontent.com/51961041/207077257-9174aae2-36f2-490b-8789-3e91cc67fd3a.png)
-
-수치 속성(category_attribute)
-![image](https://user-images.githubusercontent.com/51961041/207077405-4f338b45-1ecd-4bff-840b-86138a8e35ca.png)
-
-테이블 속성 도메인 스캔(selecttable)
-
-![image](https://user-images.githubusercontent.com/51961041/208028387-113dd8b8-ff54-42ba-834a-c5ecd71465ab.png)
-
-****
-위의 파일들을 본인 로컬에서 실행 시 본인이 사용하는 db 이름과 일치시켜야 함
-
-![image](https://user-images.githubusercontent.com/51961041/208027977-f3460efc-37fe-44d9-9a90-ec17fbe19e72.png)
-해당 위치의 본인 db 이름으로 변경해서 진행
+category.js부분 특수문자 추가
