@@ -15,7 +15,7 @@ select_table.create = function (){
         });
         
         //속성 update 필요
-        var sql = "SELECT group_concat(COLUMN_NAME) FROM information_schema.columns WHERE TABLE_NAME = '"+fileName+"'";
+        var sql = "insert into selecttable(속성) SELECT group_concat(COLUMN_NAME) FROM information_schema.columns WHERE TABLE_NAME = '"+fileName+"'";
         conn.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Table created");
