@@ -13,7 +13,25 @@ select_table.create = function (){
           if (err) throw err;
           console.log("Table created");
         });
+        
         //속성 update 필요
+        var sql = "SELECT COLUMN_NAME FROM information_schema.columns WHERE TABLE_NAME = '"+fileName+"'";
+        conn.query(sql, function (err, result) {
+          if (err) throw err;
+          let properties='';
+          for (let i=0;i<result.length-1;i++) {
+            properties += result[i];
+            properties += ', ';
+          }
+          properties += result[result.length-1];
+          var sql = "insert into selecttable(속성) VALUES(?)";
+          
+          conn.query(sql, properties, function(err,result){
+            if (err) throw err;
+            console.log("insert done");
+          });
+          console.log("Table created");
+        });
         return ;
     });
 }
