@@ -55,6 +55,21 @@ app.post('/fileupload', upload.single('file'), (req,res,next)=>{
   upload_csv.create(req,res)
 })
 
+//csv_done_table 만들기 (속성스캔 전 테이블)
+var csv_done_table = require('./csv_done_table')
+app.post('/post/csvdonetable', (req,res)=>{
+  const {fileName} = req.body
+  console.log(fileName)
+  csv_done_table.create(fileName)
+})
+
+//csv_done_table 불러오기 (모듈화 x)
+app.get('/get/csvdonetable', (req,res)=>{
+  var sql = 'SELECT * FROM csv_done_table'
+    conn.query(sql ,(err,row,fields)=>{
+      res.send(row)
+  })
+})
 
 // 사용자가 추가한 속성 att dic 에 추가
 var attr_dic = require('./add_attr_dic.js')
@@ -106,6 +121,22 @@ app.get('/scan', (req, res)=>{
   })
 });
 
+//scan_done_table 만들기 (속성편집 완료 테이블)
+var scan_done_table = require('./scan_done_table')
+app.post('/post/scandonetable', (req,res)=>{
+  const {fileName} = req.body
+  console.log(fileName)
+  scan_done_table.create(fileName)
+})
+
+//scan_done_table 불러오기 (모듈화 x)
+app.get('/get/scandonetable', (req,res)=>{
+  var sql = 'SELECT * FROM scan_done_table'
+    conn.query(sql ,(err,row,fields)=>{
+      res.send(row)
+  })
+})
+
 // 속성편집
 // 데이터타입 편집
 var edit_type = require('./edit_type')
@@ -146,3 +177,19 @@ app.get('/api/statistictable/:table',(req,res) => {
     }
   )
 });
+
+//search
+var search = require('./search.js')
+app.post('/search', (req,res)=>{
+  const {tablename, key, att, attName} = req.body
+  console.log(tablename, att)
+  search.create(req, res, tablename, key, att, attName)
+})
+
+//single join
+var single_join = require('./single_join.js')
+app.post('/post/singlejoin', (req,res)=>{
+  const {table1, table2, att1, att2} = req.body
+  console.log(table1, table2, att1, att2)
+  single_join.create(req, res, table1, table2, att1, att2)
+})
