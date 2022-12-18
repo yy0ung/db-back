@@ -3,7 +3,7 @@ var figure = {};
 
 figure.create = function (tablename){
     con.getConnection(function(err,conn){
-        console.log("figure시작");
+          /// 결합키 후보 boolean 설정
         var sql = "create table if not exists figure_attribute(속성명 VARCHAR(255), 데이터_타입 TEXT, NULL_레코드_수 int, NULL_레코드_비율 real, 상이_수치_값 int, 최대_값 int, 최소_값 int, 영_레코드_수 int, 영_레코드_비율 int, 대표_속성 TEXT, 결합키_후보 BOOLEAN, 대표_결합키 VARCHAR(255));";
         conn.query(sql, function (err, result) {
             if (err) throw err;
@@ -14,10 +14,10 @@ figure.create = function (tablename){
             if (err) throw err;
             console.log("Table created");
         });
-        
+        //  boolean 초기화 false로.
         var sql = "insert into category_attribute(결합키_후보) VALUES (0)";
         conn.query(sql, function (err, result) {
-            console.log("여긴 왜 안됨?(figure)");
+            
           if (err) throw err;
           console.log("결합키_후보 inserted");
         });
