@@ -26,7 +26,7 @@ category.create = function (tablename){
             conn.query("UPDATE category_attribute SET NULL_레코드_수 = (SELECT COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" IS NULL) WHERE 속성명='"+att.속성명+"'");
             conn.query("UPDATE category_attribute SET NULL_레코드_비율 = NULL_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
             conn.query("UPDATE category_attribute SET 상이_범주_값 = (SELECT COUNT(DISTINCT "+att.속성명+") FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
-            conn.query("UPDATE category_attribute SET 특수문자_포함_레코드_수 COUNT(*) FROM students WHERE admission_date REGEXP '[`~!#$%^&*|\\\'\";:\/?\\-\\+\\[\\]\\{\\}\\(\\)_=<>,.]'");
+            conn.query("UPDATE category_attribute SET 특수문자_포함_레코드_수 COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" REGEXP '[`~!#$%^&*|\\\'\";:\/?\\-\\+\\[\\]\\{\\}\\(\\)_=<>,.]'");
               // 특수문자
             conn.query("UPDATE category_attribute SET 특수문자_포함_레코드_비율 특수문자_포함_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
             // 이지
