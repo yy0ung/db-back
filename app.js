@@ -28,6 +28,13 @@ category.create('1_fitness_measurement');
 var statistic = require('./statistic');
 statistic.create('1_fitness_measurement');
 
+//이지
+var single_join = require('./single_join');
+single_join.create('single_1_fitness_measurement_2_physical_instructor_practice_info');
+
+var multi_join = require('./multi_join');
+multi_join.create('multi_1_fitness_measurement_2_physical_instructor_practice_info');
+
 app.get('/api/table',(req,res) => {
   conn.query(
     "SELECT * FROM selecttable",
@@ -54,3 +61,6 @@ app.get('/api/table/1_fitness_measurement/statistic',(req,res) => {
     }
   )
 });
+
+//이지
+//single_join, multi join
