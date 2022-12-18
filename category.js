@@ -3,7 +3,7 @@ var category = {};
 
 category.create = function (tablename){
     con.getConnection(function(err,conn){
-      console.log("category 시작");
+      
         var sql = "create table if not exists category_attribute(속성명 VARCHAR(255), 데이터_타입 TEXT, NULL_레코드_수 int, NULL_레코드_비율 real, 상이_범주_값 int, 특수문자_포함_레코드_수 int, 특수문자_포함_레코드_비율 real, 대표_속성 TEXT, 결합키_후보 BOOLEAN, 대표_결합키 VARCHAR(255));";
         conn.query(sql, function (err, result) {      /// 결합키 후보 boolean으로 바꿈                     
           if (err) throw err;
