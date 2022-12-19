@@ -5,7 +5,7 @@ var csv_done_table = {};
 
 csv_done_table.create = function (fileName){
     con.getConnection(function(err,conn){
-        var sql = "create table if not exists csv_done_table(테이블_명 VARCHAR(255), 레코드_수 int, 속성 VARCHAR(255), 스캔여부 boolean);";
+        var sql = "create table if not exists csv_done_table(테이블_명 VARCHAR(255), 레코드_수 int, 속성 VARCHAR(3000), 스캔여부 boolean);";
         conn.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Table created");
@@ -19,11 +19,11 @@ csv_done_table.create = function (fileName){
         });
         //속성 update 필요
         //"Unknown column 'table_name' in 'where clause'" 에러
-        var sql = 'update csv_done_table set 속성= (SELECT group_concat(COLUMN_NAME) FROM information_schema.columns) WHERE table_name="'+fileName+'"';
-        conn.query(sql, function (err, result) {
-          if (err) throw err;
-          console.log("Table created");
-        });
+        // var sql = 'update csv_done_table set 속성= (SELECT group_concat(COLUMN_NAME) FROM information_schema.columns) WHERE 테이블_명="'+fileName+'"';
+        // conn.query(sql, function (err, result) {
+        //   if (err) throw err;
+        //   console.log("Table created");
+        // });
         return ;
     });
 }

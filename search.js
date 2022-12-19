@@ -3,35 +3,35 @@ var search = {};
 
 function searchMethod(tablename, key, att, attName){
   var sql = "select * from scan_done_table";
-  if (tablename==0 && key==0 && att==0 && attName==0)
+  if (tablename==null && key==null && att==null && attName==null)
       var sql = "select * from scan_done_table";
-  else if(tablename==0 && key==0 && att==0)
+  else if(tablename==null && key==null && att==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"');";
-  else if(tablename==0 && key==0 && attName==0)
+  else if(tablename==null && key==null && attName==null)
       var sql = "SELECT * FROM scan_done_table WHERE 대표_속성 like'%"+att+"%';";
-  else if(tablename==0 && att==0 && attName==0)
+  else if(tablename==null && att==null && attName==null)
       var sql = "SELECT * FROM scan_done_table WHERE 대표_결합키 like '%"+key+"%'";
-  else if(key==0 && att==0 && attName==0)
+  else if(key==null && att==null && attName==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명 like'%"+tablename+"%'";
-  else if(tablename==0 && key==0)
+  else if(tablename==null && key==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"') and 대표_속성='%"+att+"'%";
-  else if(tablename==0 && att==0)
+  else if(tablename==null && att==null)
       var sql = "SELECT * FROM scan_done_table WHERE 대표_결합키='"+key+"' and 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"');";
-  else if(tablename==0 && attName==0)
+  else if(tablename==null && attName==null)
       var sql = "SELECT * FROM scan_done_table WHERE 대표_결합키='"+key+"' and 대표_속성='%"+att+"'%";
-  else if(key==0 && att==0)
+  else if(key==null && att==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명='"+tablename+"' and 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"');";
-  else if(key==0 && attName==0)
+  else if(key==null && attName==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명='"+tablename+"' and 대표_속성='"+attName+"';";
-  else if(att==0 && attName==0)
+  else if(att==null && attName==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명='"+tablename+"' and 대표_결합키='"+key+"';";
-  else if(tablename==0)
+  else if(tablename==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"') and 대표_결합키='"+key+"' and 대표_속성='%"+att+"'%";
-  else if(key==0)
+  else if(key==null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"') and 테이블_명='"+tablename+"' and 대표_속성='%"+att+"'%";
-  else if(att=0)
+  else if(att=null)
       var sql = "SELECT * FROM scan_done_table WHERE 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"') and 테이블_명='"+tablename+"' and 대표_결합키='"+key+"'";
-  else if(attName==0)
+  else if(attName==null)
       var sql = "SELECT * FROM scan_done_table WHERE 대표_속성='%"+att+"%' and 테이블_명='"+tablename+"' and 대표_결합키='"+key+"'";
   else
   var sql = "SELECT * FROM scan_done_table WHERE 테이블_명=(SELECT table_name FROM information_schema.COLUMNS WHERE COLUMN_NAME='"+attName+"') and 테이블_명='"+tablename+"' and 대표_결합키='"+key+"' and 대표_속성='%"+att+"'%";

@@ -194,6 +194,82 @@ app.post('/post/singlejoin', (req,res)=>{
   single_join.create(req, res, table1, table2, att1, att2)
 })
 
+//multi join
+var multi_join = require('./multi_join.js')
+app.post('/post/multijoin', (req,res)=>{
+  const {table1, table2, att1, att2} = req.body
+  console.log(table1, table2, att1, att2)
+  multi_join.create(req, res, table1, table2, att1, att2)
+})
+
+
+//table a+b 단순 결합 테이블 보여주기
+app.get('/get/singlejoin/:table1/:table2', (req,res)=>{
+  const {table1, table2} = req.params
+  const sql = "SELECT * FROM single_"+table1+"_"+table2;
+  conn.query(
+    sql,
+    (err, rows, fields) => {
+      res.send(rows);
+      console.log("done")
+    }
+  )
+})
+
+app.get('/get/multijoin/:table1/:table2', (req,res)=>{
+  const {table1, table2} = req.params
+  const sql = "SELECT * FROM multi_"+table1+"_"+table2;
+  conn.query(
+    sql,
+    (err, rows, fields) => {
+      res.send(rows);
+      console.log("done")
+    }
+  )
+})
+
+//single join result table 올리기
+var single_join_result = require('./single_join_result.js')
+app.post('/post/singleresult', (req,res)=>{
+  const {table1, table2} = req.body
+  single_join_result.create(table1, table2)  
+  console.log("결과 테이블 완료")
+})
+
+//single join result table 불러오기
+app.get('/get/singleresult/:table1/:table2', (req,res)=>{
+  const {table1, table2} = req.params
+  const sql = "SELECT * FROM sres_"+table1+"_"+table2;
+  conn.query(
+    sql,
+    (err, rows, fields) => {
+      res.send(rows);
+      console.log("테이블 읽어오기")
+    }
+  )
+})
+
+//multi join result table 올리기
+var multi_join_result = require('./multi_join_result.js')
+app.post('/post/multiresult', (req,res)=>{
+  const {table1, table2} = req.body
+  multi_join_result.create(table1, table2)  
+  console.log("결과 테이블 완료")
+})
+
+//multi join result table 불러오기
+app.get('/get/multiresult/:table1/:table2', (req,res)=>{
+  const {table1, table2} = req.params
+  const sql = "SELECT * FROM mres_"+table1+"_"+table2;
+  conn.query(
+    sql,
+    (err, rows, fields) => {
+      res.send(rows);
+      console.log("테이블 읽어오기")
+    }
+  )
+})
+
 //down csv
 var make_csv = require('./make_csv.js')
 app.get('/download/csv', (req,res)=>{

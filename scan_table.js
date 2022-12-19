@@ -28,7 +28,7 @@ async function create_statistic(tablename){
         conn.query("UPDATE "+params+" SET 최소_값 = (SELECT MIN("+row[i].속성명+") FROM "+tablename+") WHERE 속성명='"+row[i].속성명+"'");
         conn.query("UPDATE "+params+" SET 영_레코드_수 = (SELECT COUNT(*) FROM "+tablename+" WHERE "+row[i].속성명+"=0) WHERE 속성명='"+row[i].속성명+"'");
         conn.query("UPDATE "+params+" SET 영_레코드_비율 = 영_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+row[i].속성명+"'");
-        conn.query("UPDATE "+params+" SET 결합키_후보 = '"+"1"+"' WHERE (속성명='"+row[i].속성명+"') AND (상이_범주_값    + NULL_레코드_수) >= (SELECT COUNT(*) FROM "+tablename+")*9/10");
+        conn.query("UPDATE "+params+" SET 결합키_후보 = '"+"1"+"' WHERE (속성명='"+row[i].속성명+"') AND (상이_수치_값    + NULL_레코드_수) >= (SELECT COUNT(*) FROM "+tablename+")*9/10");
       }
     });
     return ;
@@ -56,13 +56,15 @@ async function create_category(tablename){
   
     conn.query("select 속성명 from "+params, async function(err, row, fields){
       for (var att of row){
+        console.log(att.속성명)
         conn.query("UPDATE "+params+" SET NULL_레코드_수 = (SELECT COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" IS NULL) WHERE 속성명='"+att.속성명+"'");
         conn.query("UPDATE "+params+" SET NULL_레코드_비율 = NULL_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
         conn.query("UPDATE "+params+" SET 상이_범주_값 = (SELECT COUNT(DISTINCT "+att.속성명+") FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
-        conn.query("UPDATE "+params+" SET 특수문자_포함_레코드_수 COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" REGEXP '[`~!#$%^&*|\\\'\";:\/?\\-\\+\\[\\]\\{\\}\\(\\)_=<>,.]'");
-        conn.query("UPDATE "+params+" SET 특수문자_포함_레코드_비율 특수문자_포함_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
+        conn.query("UPDATE "+params+" SET 특수문자_포함_레코드_수=(select COUNT(*) FROM "+tablename+" WHERE '"+att.속성명+"' REGEXP '[`~!#$%^&*|\\\'\";:\/?\\-\\+\\[\\]\\{\\}\\(\\)_=<>,.]')");
+        conn.query("UPDATE "+params+" SET 특수문자_포함_레코드_비율=특수문자_포함_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
         conn.query("UPDATE "+params+" SET 결합키_후보 = '"+"1"+"' WHERE (속성명='"+att.속성명+"') AND (상이_범주_값 + NULL_레코드_수) >= (SELECT COUNT(*) FROM "+tablename+")*9/10");
       }
+      console.log("UPDATE "+params+" SET 특수문자_포함_레코드_수=(select COUNT(*) FROM "+tablename+" WHERE '"+att.속성명+"' REGEXP '[`~!#$%^&*|\\\'\";:\/?\\-\\+\\[\\]\\{\\}\\(\\)_=<>,.]')")
     });
     return ;
   })
