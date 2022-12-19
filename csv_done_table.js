@@ -19,7 +19,7 @@ csv_done_table.create = function (fileName){
         });
         //속성 update 필요
         //"Unknown column 'table_name' in 'where clause'" 에러
-        var sql = 'update csv_done_table set 속성= (SELECT group_concat(COLUMN_NAME) FROM information_schema.columns) WHERE table_name="'+fileName+'"';
+        var sql = 'update csv_done_table set 속성= (SELECT group_concat(COLUMN_NAME) FROM information_schema.columns) WHERE 테이블_="'+fileName+'"';
         conn.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Table created");
