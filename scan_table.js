@@ -28,7 +28,7 @@ async function create_statistic(tablename){
         conn.query("UPDATE "+params+" SET 최소_값 = (SELECT MIN("+row[i].속성명+") FROM "+tablename+") WHERE 속성명='"+row[i].속성명+"'");
         conn.query("UPDATE "+params+" SET 영_레코드_수 = (SELECT COUNT(*) FROM "+tablename+" WHERE "+row[i].속성명+"=0) WHERE 속성명='"+row[i].속성명+"'");
         conn.query("UPDATE "+params+" SET 영_레코드_비율 = 영_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+row[i].속성명+"'");
-        conn.query("UPDATE "+params+" SET 결합키_후보 = '"+"1"+"' WHERE (속성명='"+row[i].속성명+"') AND (상이_범주_값    + NULL_레코드_수) >= (SELECT COUNT(*) FROM "+tablename+")*9/10");
+        conn.query("UPDATE "+params+" SET 결합키_후보 = '"+"1"+"' WHERE (속성명='"+row[i].속성명+"') AND (상이_수치_값    + NULL_레코드_수) >= (SELECT COUNT(*) FROM "+tablename+")*9/10");
       }
     });
     return ;
