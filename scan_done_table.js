@@ -16,6 +16,7 @@ scan_done_table.create = function (fileName){
           console.log("Table created");
         });
         //대표_속성, 대표_결합키 SQL문 필요
+
         var sqlForProperty = 'update scan_done_table SET 대표_속성= (select CONCAT_WS (",",IFNULL((SELECT GROUP_CONCAT(대표_속성) FROM '+fileName+'_statistic_attribute), ""),IFNULL((SELECT GROUP_CONCAT(대표_속성)  FROM '+fileName+'_category_attribute),""))) WHERE 테이블_명 ="'+fileName+'"';
         var sqlForKey = 'update scan_done_table SET 대표_결합키= (select CONCAT_WS (",",IFNULL((SELECT GROUP_CONCAT(대표_결합키) FROM '+fileName+'_statistic_attribute), ""),IFNULL((SELECT GROUP_CONCAT(대표_결합키)  FROM '+fileName+'_category_attribute),""))) WHERE 테이블_명 ="'+fileName+'"';
         conn.query(sqlForProperty, (err,result)=>{
@@ -25,6 +26,7 @@ scan_done_table.create = function (fileName){
           console.log("키");
         })
          
+
         return ;
     });
 }
