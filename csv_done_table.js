@@ -11,13 +11,19 @@ csv_done_table.create = function (fileName){
           console.log("Table created");
         });
         //insert into selecttable(속성) SELECT group_concat(COLUMN_NAME) FROM information_schema.columns WHERE TABLE_NAME = '"+fileName+"'"
-        var sql = 'insert into csv_done_table(테이블_명, 레코드_수) select table_name, TABLE_ROWS from INFORMATION_SCHEMA.tables where table_name="'+fileName+'", ';
+        var sql = 'insert into csv_done_table(테이블_명, 레코드_수) select table_name, TABLE_ROWS from INFORMATION_SCHEMA.tables where table_name="'+fileName+'"';
         console.log(sql)
         conn.query(sql, function (err, result) {
           if (err) throw err;
           console.log("Table created");
         });
         //속성 update 필요
+        //"Unknown column 'table_name' in 'where clause'" 에러
+        var sql = 'update csv_done_table set 속성= (SELECT group_concat(COLUMN_NAME) FROM information_schema.columns) WHERE table_name="'+fileName+'"';
+        conn.query(sql, function (err, result) {
+          if (err) throw err;
+          console.log("Table created");
+        });
         return ;
     });
 }

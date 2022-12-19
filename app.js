@@ -193,3 +193,9 @@ app.post('/post/singlejoin', (req,res)=>{
   console.log(table1, table2, att1, att2)
   single_join.create(req, res, table1, table2, att1, att2)
 })
+
+//down csv
+var make_csv = require('./make_csv.js')
+app.get('/download/csv', (req,res)=>{
+  make_csv.get("1_fitness_measurement")
+})

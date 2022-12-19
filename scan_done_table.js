@@ -16,6 +16,13 @@ scan_done_table.create = function (fileName){
           console.log("Table created");
         });
         //대표_속성, 대표_결합키 SQL문 필요
+        //'Query was empty' 에러
+         var sqlForProperty = 'update scan_done_table set 대표_속성=(SELECT  GROUP_CONCAT(IFNULL(대표_속성,""),ifnull(CONCAT (",", 대표_속성),"") SEPARATOR "," ) FROM '+fileName+'_statistic_attribute, '+fileName+'_category_attribute) where 테이블_명='+fileName;
+         var sqlForKey = 'update scan_done_table set 대표_속성=(SELECT  GROUP_CONCAT(IFNULL(대표_결합키,""),ifnull(CONCAT (",", 대표_결합키),"") SEPARATOR "," ) FROM '+fileName+'_statistic_attribute, '+fileName+'_category_attribute) where 테이블_명='+fileName;
+         conn.query([sqlForProperty,sqlForKey], function (err, result) {
+           if (err) throw err;
+           console.log("Table created");
+         });
         return ;
     });
 }
