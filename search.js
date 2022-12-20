@@ -41,10 +41,10 @@ function searchMethod(tablename, key, att, attName){
 search.create = function (req, res, tablename, key, att, attName){
     con.getConnection((err,conn)=>{
       const sql = searchMethod(tablename, key, att, attName)
-      console.log(sql)
+      
       conn.query(sql, (err, row)=>{
         res.send(row)
-        console.log("search done")
+        
       })
     })
 }

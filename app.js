@@ -192,7 +192,6 @@ app.get('/api/statistictable/:table',(req,res) => {
 var search = require('./search.js')
 app.post('/search', (req,res)=>{
   const {tablename, key, att, attName} = req.body
-  console.log(tablename, att)
   search.create(req, res, tablename, key, att, attName)
 })
 
