@@ -28,7 +28,7 @@ function jsonToCSV(json_data) {
 
 
 
-make_csv.downloadcsv = function (tablename){
+make_csv.make = function (tablename){
 
     const tablename = "category_attribute";
     // const filepath = "./csvFiles/result_"+tablename+".csv";
