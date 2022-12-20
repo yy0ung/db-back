@@ -8,7 +8,7 @@ key_att.create = function (tablename){
             if (err) throw err;
             console.log(result);
         });
-        return ;
+        return result;
     });
     
 };
