@@ -285,7 +285,19 @@ app.post('/get/attrkey', (req,res)=>{
 
 //down csv
 var make_csv = require('./make_csv.js')
+
 app.get('/download/:csv', (req,res)=>{
   const {csv} = req.params
   make_csv.get(req,res,csv)
 })
+
+/*
+반영 예정
+app.get('/download/csv', (req,res)=>{   /// html에서 <a href="/downlaod/csv></a>로 하면 되는 것 같습니다
+  make_csv.get("1_fitness_measurement")
+  var filepath ="C:/Users/"  // filepath는 csv파일 local에 저장된 위치 ex)C:/result/
+  var savedfilename ="1_fitness_measurement.csv"; //  name은 csv파일 이름  ex) abcd.csv
+  res.download(filepath+savedfilename);
+})
+*/
+
