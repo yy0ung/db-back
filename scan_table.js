@@ -61,7 +61,7 @@ async function create_category(tablename){
         conn.query("UPDATE "+params+" SET NULL_레코드_비율 = NULL_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
         conn.query("UPDATE "+params+" SET 상이_범주_값 = (SELECT COUNT(DISTINCT "+att.속성명+") FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
 
-        conn.query("UPDATE "+params+" SET 특수문자_포함_레코드_수=(select COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" REGEXP '[`~!#$%^&*|\\\'\";:\/?]' or "+att.속성명+" REGEXP '[\-\+.,<>(){}\[]')");
+        conn.query("UPDATE "+params+" SET 특수문자_포함_레코드_수=(select COUNT(*) FROM "+tablename+" WHERE "+att.속성명+" REGEXP '[\-\@\.?`~!#$%^&*|\\\'\";:\/]')");
 
         conn.query("UPDATE "+params+" SET 특수문자_포함_레코드_비율=특수문자_포함_레코드_수/(SELECT COUNT(*) FROM "+tablename+") WHERE 속성명='"+att.속성명+"'");
         conn.query("UPDATE "+params+" SET 결합키_후보 = '"+"1"+"' WHERE (속성명='"+att.속성명+"') AND (상이_범주_값 + NULL_레코드_수) >= (SELECT COUNT(*) FROM "+tablename+")*9/10");
