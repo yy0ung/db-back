@@ -49,6 +49,17 @@ const upload = multer({
   })
 })
 
+//schema
+app.post('/schema', (req,res)=>{
+  const {sqlSchema} = req.body
+  for(let i in sqlSchema){
+    conn.query(sqlSchema[i], (err,row)=>{
+      console.log("스키마")
+    })
+  }
+  
+})
+
 //upload csv
 var upload_csv = require('./upload_csv.js')
 app.post('/fileupload', upload.single('file'), (req,res,next)=>{
@@ -59,7 +70,6 @@ app.post('/fileupload', upload.single('file'), (req,res,next)=>{
 var csv_done_table = require('./csv_done_table')
 app.post('/post/csvdonetable', (req,res)=>{
   const {fileName} = req.body
-  console.log(fileName)
   csv_done_table.create(fileName)
 })
 

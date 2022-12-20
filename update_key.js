@@ -6,6 +6,7 @@ update_key.create = (req,res)=>{
   con.getConnection((err,conn)=>{
     const {table, key, name} = req.body
     var sql = 'UPDATE '+table+' SET 대표_결합키=(?) where 속성명=(?)';
+    console.log(sql)
     var params = [key, name]
     conn.query(sql, params, (err, rows, fields)=>{
       if(err){
