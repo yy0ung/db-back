@@ -39,7 +39,7 @@ var multi_join = require('./multi_join_result');
 multi_join.create('1_fitness_measurement','2_physical_instructor_practice_info');
 
 var key_att = require('./key_att');
-key_att.create('statistic_attribute');
+key_att.create('scan_table');
 
 //선택 가능한 테이블 목록
 //대표속성은 하나만 입력되어 있을 경우 검색 가능
