@@ -4,7 +4,7 @@ const fs = require("fs");
 
 var make_csv = {};
 
-make_csv.get = function (tablename){
+make_csv.get = function (req,res,tablename){
     const ws = fs.createWriteStream("result_"+tablename+".csv")
     con.getConnection(function(err,conn){
         var sql = "SELECT * FROM "+tablename;
@@ -19,6 +19,7 @@ make_csv.get = function (tablename){
                 console.log("write csv successfully");
             })
             .pipe(ws);
+            res.send(true)
         });
         return ;
     });

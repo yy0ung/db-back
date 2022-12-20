@@ -216,9 +216,8 @@ app.get('/get/singlejoin/:table1/:table2', (req,res)=>{
   )
 })
 
-app.get('/get/multijoin/:table1/:table2', (req,res)=>{
-  const {table1, table2} = req.params
-  const sql = "SELECT * FROM multi_"+table1+"_"+table2;
+app.get('/get/multijoin', (req,res)=>{
+  const sql = "SELECT * FROM multi_join_result";
   conn.query(
     sql,
     (err, rows, fields) => {
@@ -237,9 +236,8 @@ app.post('/post/singleresult', (req,res)=>{
 })
 
 //single join result table 불러오기
-app.get('/get/singleresult/:table1/:table2', (req,res)=>{
-  const {table1, table2} = req.params
-  const sql = "SELECT * FROM sres_"+table1+"_"+table2;
+app.get('/get/singleresult', (req,res)=>{
+  const sql = "SELECT * FROM single_join_result";
   conn.query(
     sql,
     (err, rows, fields) => {
@@ -258,9 +256,8 @@ app.post('/post/multiresult', (req,res)=>{
 })
 
 //multi join result table 불러오기
-app.get('/get/multiresult/:table1/:table2', (req,res)=>{
-  const {table1, table2} = req.params
-  const sql = "SELECT * FROM mres_"+table1+"_"+table2;
+app.get('/get/multiresult', (req,res)=>{
+  const sql = "SELECT * FROM multi_join_result";
   conn.query(
     sql,
     (err, rows, fields) => {
@@ -270,8 +267,16 @@ app.get('/get/multiresult/:table1/:table2', (req,res)=>{
   )
 })
 
+//key attr 찾아오기
+var key_att = require('./key_att.js')
+app.post('/get/attrkey', (req,res)=>{
+  const {tablename, key} = req.body
+  key_att.create(req,res,tablename,key)
+})
+
 //down csv
 var make_csv = require('./make_csv.js')
-app.get('/download/csv', (req,res)=>{
-  make_csv.get("1_fitness_measurement")
+app.get('/download/:csv', (req,res)=>{
+  const {csv} = req.params
+  make_csv.get(req,res,csv)
 })
