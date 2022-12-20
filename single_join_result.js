@@ -19,7 +19,7 @@ single_join_result.create = function (table1, table2, key){
         conn.query("update single_join_result SET 결합키_속성A =(SELECT a.속성명 AS 결합키_속성A FROM (SELECT 속성명,대표_결합키 FROM "+table1+"_statistic_attribute UNION SELECT 속성명,대표_결합키 FROM "+table1+"_category_attribute) a WHERE a.`대표_결합키`='"+key+"') where 테이블A='"+table1+"' and 테이블B='"+table2+"'");
         conn.query("update single_join_result SET 결합키_속성B =(SELECT a.속성명 AS 결합키_속성B FROM (SELECT 속성명,대표_결합키 FROM "+table2+"_statistic_attribute UNION SELECT 속성명,대표_결합키 FROM "+table2+"_category_attribute) a WHERE a.`대표_결합키`='"+key+"') where 테이블A='"+table1+"' and 테이블B='"+table2+"'");
         conn.query("update single_join_result SET 대표_결합키 ='"+key+"' where 테이블A='"+table1+"' and 테이블B='"+table2+"'");
-        conn.query("update single_join_result SET 결과_레코드_수 =(SELECT COUNT(*) FROM 1_fitness_measurement_2_physical_instructor_practice_info) where 테이블A='"+table1+"' and 테이블B='"+table2+"'");
+        conn.query("update single_join_result SET 결과_레코드_수 =(SELECT COUNT(*) FROM single_"+table1+"_"+table2+") where 테이블A='"+table1+"' and 테이블B='"+table2+"'");
         conn.query("update single_join_result SET 결합_성공률_W1 =결과_레코드_수/(SELECT COUNT(*) FROM "+table1+") where 테이블A='"+table1+"' and 테이블B='"+table2+"'");
         conn.query("update single_join_result SET 결합_성공률_W2 =결과_레코드_수/(SELECT COUNT(*) FROM "+table2+") where 테이블A='"+table1+"' and 테이블B='"+table2+"'");
         return ;
