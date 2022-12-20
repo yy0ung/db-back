@@ -275,3 +275,9 @@ var make_csv = require('./make_csv.js')
 app.get('/download/csv', (req,res)=>{
   make_csv.get("1_fitness_measurement")
 })
+
+app.get('/주소',async(req,res,next)=>{  /// 프론트 html에서 <a href = '/주소'>내용</a>형식으로 맞추면 됨.
+  var filepath ="C:/Users/dltkd/DB_Project/modulization/db-back-master/"  // filepath는 csv파일 local에 저장된 위치 ex)C:/result/
+  var savedfilename ="category_attribute.csv"; //  name은 csv파일 이름  ex) abcd.csv
+  res.download(filepath+savedfilename);
+});
