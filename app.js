@@ -23,20 +23,20 @@ var select_table = require('./select_table');
 select_table.create();
 
 var statistic = require('./statistic');
-statistic.create('1_fitness_measurement');
+statistic.create('2_physical_instructor_practice_info');
 
 var category = require('./category');
-category.create('1_fitness_measurement');
+category.create('2_physical_instructor_practice_info');
 
 var scan_table = require('./scan_table');
-scan_table.create('1_fitness_measurement');
+scan_table.create('2_physical_instructor_practice_info');
 
 var search = require('./search');
 
 var single_join = require('./single_join_result');
-single_join.create('1_fitness_measurement','2_physical_instructor_practice_info');
+single_join.create('1_fitness_measurement','2_physical_instructor_practice_info','AA');
 var multi_join = require('./multi_join_result');
-multi_join.create('1_fitness_measurement','2_physical_instructor_practice_info');
+multi_join.create('1_fitness_measurement','2_physical_instructor_practice_info','AA');
 
 //선택 가능한 테이블 목록
 //대표속성은 하나만 입력되어 있을 경우 검색 가능
