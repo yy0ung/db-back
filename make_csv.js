@@ -30,7 +30,7 @@ function jsonToCSV(json_data) {
 
 make_csv.make = function (tablename){
 
-    const tablename = "category_attribute";
+    // const tablename = "category_attribute";
     // const filepath = "./csvFiles/result_"+tablename+".csv";
     const filepath = "./"+tablename+".csv"; /////////////// 여기서 path 수정 가능. 원하는 곳으로. 
     const ws = fs.createWriteStream(filepath);
