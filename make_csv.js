@@ -1,25 +1,52 @@
-var con = require('./connect');
-const fastcsv = require("fast-csv");
-const fs = require("fs");
 
+var con = require('./connect');
+const fs = require("fs");
 var make_csv = {};
 
-make_csv.get = function (tablename){
-    const ws = fs.createWriteStream("result_"+tablename+".csv")
-    con.getConnection(function(err,conn){
-        var sql = "SELECT * FROM "+tablename;
-        conn.query(sql, function (err, data, fields) {
+
+function jsonToCSV(json_data) {
+
+    // 1-1. json 데이터 취득
+    const json_array = json_data;
+    let csv_string = '\uFEFF';
+    const titles = Object.keys(json_array[0]);
+    titles.forEach((title, index)=>{
+        csv_string += (index !== titles.length-1 ? `${title},` : `${title}\r\n`);
+    });
+    json_array.forEach((content, index)=>{
+        let row = ''; 
+        for(let title in content){ 
+            // 
+            row += (row === '' ? `${content[title]}` : `,"${content[title]}"`);
+        }
+        //
+        csv_string += (index !== json_array.length-1 ? `${row}\r\n`: `${row}`);
+    })
+    // 
+    return csv_string;
+}
+
+
+
+make_csv.downloadcsv = function (tablename){
+
+    const tablename = "category_attribute";
+    // const filepath = "./csvFiles/result_"+tablename+".csv";
+    const filepath = "./"+tablename+".csv"; /////////////// 여기서 path 수정 가능. 원하는 곳으로. 
+    const ws = fs.createWriteStream(filepath);
+    cnn.getConnection(function(err,connn){
+        var sql = "";
+        connn.query("SELECT * FROM "+tablename, function (err, thedata, fields) {
             if (err) throw err;
-
-            const jsonData = JSON.parse(JSON.stringify(data))
-            //console.log("Table created");
-
+            
+            const jsonData = JSON.parse(JSON.stringify(thedata))
+            
+            const csv_string = jsonToCSV(jsonData);
+            console.log(csv_string)
+            fs.writeFileSync(filepath,csv_string);
             fastcsv.write(jsonData, {headers:true})
-            .on("finish", function(){
-                console.log("write csv successfully");
-            })
-            .pipe(ws);
         });
+        connn.release();
         return ;
     });
 }
