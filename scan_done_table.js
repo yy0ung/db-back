@@ -3,7 +3,7 @@ const fs = require('fs')
 const dbInfo = JSON.parse(fs.readFileSync('./db.json'));
 var scan_done_table = {};
 
-scan_done_table.create = function (fileName){
+scan_done_table.create = function (req, res, fileName){
     con.getConnection(function(err,conn){
         var sql = "create table if not exists scan_done_table(테이블_명 VARCHAR(255), 레코드_수 int, 대표_속성 VARCHAR(255), 대표_결합키 VARCHAR(255));";
         conn.query(sql, function (err, result) {
@@ -17,7 +17,7 @@ scan_done_table.create = function (fileName){
         });
         //대표_속성, 대표_결합키 SQL문 필요
 
-        var sqlForProperty = 'update scan_done_table SET 대표_속성= (select CONCAT_WS (IFNULL((SELECT GROUP_CONCAT(대표_속성) FROM '+fileName+'_statistic_attribute), ""),IFNULL((SELECT GROUP_CONCAT(대표_속성)  FROM '+fileName+'_category_attribute),""))) WHERE 테이블_명 ="'+fileName+'"';
+        var sqlForProperty = 'update scan_done_table SET 대표_속성= (select CONCAT_WS (IFNULL((SELECT GROUP_CONCAT(대표_속성) FROM '+fileName+'_statistic_attribute), ""),IFNULL((SELECT GROUP_CONCAT(대표_속성)  FROM '+fileName+'_category_attribute),""))) WHERE 테이블_명 ="'+fileName+'"'
         var sqlForKey = 'update scan_done_table SET 대표_결합키= (select CONCAT_WS (IFNULL((SELECT GROUP_CONCAT(대표_결합키) FROM '+fileName+'_statistic_attribute), ""),IFNULL((SELECT GROUP_CONCAT(대표_결합키)  FROM '+fileName+'_category_attribute),""))) WHERE 테이블_명 ="'+fileName+'"';
         conn.query(sqlForProperty, (err,result)=>{
           console.log("속성");
@@ -26,6 +26,7 @@ scan_done_table.create = function (fileName){
           console.log("키");
         })
          
+        res.send(true)
 
         return ;
     });

@@ -11,6 +11,7 @@ multi_join.create = function (req, res, table1, table2, att1, att2){
         console.log("create join")
       })
     }
+    res.send(true)
     
    })
    return;

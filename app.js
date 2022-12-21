@@ -70,7 +70,7 @@ app.post('/fileupload', upload.single('file'), (req,res,next)=>{
 var csv_done_table = require('./csv_done_table')
 app.post('/post/csvdonetable', (req,res)=>{
   const {fileName} = req.body
-  csv_done_table.create(fileName)
+  csv_done_table.create(req,res,fileName)
 })
 
 //csv_done_table 불러오기 (모듈화 x)
@@ -78,6 +78,15 @@ app.get('/get/csvdonetable', (req,res)=>{
   var sql = 'SELECT * FROM csv_done_table'
     conn.query(sql ,(err,row,fields)=>{
       res.send(row)
+  })
+})
+
+//속성 스캔 완료한 테이블 스캔여부 bool 업데이트
+app.put('/put/scanbool', (req,res)=>{
+  const {table} = req.body
+  const sql = 'UPDATE csv_done_table set 스캔여부=true where 테이블_명="'+table+'"'
+  conn.query(sql, (err,row,fields)=>{
+    res.send(true)
   })
 })
 
@@ -136,7 +145,7 @@ var scan_done_table = require('./scan_done_table')
 app.post('/post/scandonetable', (req,res)=>{
   const {fileName} = req.body
   console.log(fileName)
-  scan_done_table.create(fileName)
+  scan_done_table.create(req, res, fileName)
 })
 
 //scan_done_table 불러오기 (모듈화 x)
@@ -239,8 +248,8 @@ app.get('/get/multijoin', (req,res)=>{
 //single join result table 올리기
 var single_join_result = require('./single_join_result.js')
 app.post('/post/singleresult', (req,res)=>{
-  const {table1, table2} = req.body
-  single_join_result.create(table1, table2)  
+  const {table1, table2, key} = req.body
+  single_join_result.create(table1, table2, key)  
   console.log("결과 테이블 완료")
 })
 
@@ -259,8 +268,8 @@ app.get('/get/singleresult', (req,res)=>{
 //multi join result table 올리기
 var multi_join_result = require('./multi_join_result.js')
 app.post('/post/multiresult', (req,res)=>{
-  const {table1, table2} = req.body
-  multi_join_result.create(table1, table2)  
+  const {table1, table2, key} = req.body
+  multi_join_result.create(table1, table2, key)  
   console.log("결과 테이블 완료")
 })
 
@@ -295,7 +304,7 @@ app.get('/download/:csv', (req,res)=>{
 반영 예정
 app.get('/download/csv', (req,res)=>{   /// html에서 <a href="/downlaod/csv></a>로 하면 되는 것 같습니다
   make_csv.get("1_fitness_measurement")
-  var filepath ="C:/Users/"  // filepath는 csv파일 local에 저장된 위치 ex)C:/result/
+  var filepath =C:\Users\oinbo\Desktop\디비 파일 다운로드\"  // filepath는 csv파일 local에 저장된 위치 ex)C:/result/
   var savedfilename ="1_fitness_measurement.csv"; //  name은 csv파일 이름  ex) abcd.csv
   res.download(filepath+savedfilename);
 })

@@ -3,7 +3,7 @@ const fs = require('fs')
 const dbInfo = JSON.parse(fs.readFileSync('./db.json'));
 var csv_done_table = {};
 
-csv_done_table.create = function (fileName){
+csv_done_table.create = function (req,res,fileName){
     con.getConnection(function(err,conn){
         var sql = "create table if not exists csv_done_table(테이블_명 VARCHAR(255), 레코드_수 int, 속성 VARCHAR(3000), 스캔여부 boolean);";
         conn.query(sql, function (err, result) {
@@ -24,6 +24,8 @@ csv_done_table.create = function (fileName){
           if (err) throw err;
           console.log("Table created");
         });
+
+        res.send(true)
 
         return ;
     });
