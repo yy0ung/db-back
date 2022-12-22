@@ -1,0 +1,3 @@
+테이블A,테이블A_레코드_수,결합키_속성A,테이블B,테이블B_레코드_수,결합키_속성B,대표_결합키,결과_레코드_수,결합_성공률_W1,결합_성공률_W2
+1_fitness_measurement,1200,MAIL_ADDR,2_physical_instructor_practice_info,2002,EMAIL_ADDRESS,이메일 주소,701,0.584166666,0.3505
+1_fitness_measurement,1200,MAIL_ADDR,5_bank_marketing,1700,contect_mail,이메일 주소,201,0.1675,0.118235294

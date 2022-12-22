@@ -17,8 +17,8 @@ scan_done_table.create = function (req, res, fileName){
         });
         //대표_속성, 대표_결합키 SQL문 필요
 
-        var sqlForProperty = 'update scan_done_table SET 대표_속성= (select CONCAT_WS (IFNULL((SELECT GROUP_CONCAT(대표_속성) FROM '+fileName+'_statistic_attribute), ""),IFNULL((SELECT GROUP_CONCAT(대표_속성)  FROM '+fileName+'_category_attribute),""))) WHERE 테이블_명 ="'+fileName+'"'
-        var sqlForKey = 'update scan_done_table SET 대표_결합키= (select CONCAT_WS (IFNULL((SELECT GROUP_CONCAT(대표_결합키) FROM '+fileName+'_statistic_attribute), ""),IFNULL((SELECT GROUP_CONCAT(대표_결합키)  FROM '+fileName+'_category_attribute),""))) WHERE 테이블_명 ="'+fileName+'"';
+        var sqlForProperty = 'update scan_done_table SET 대표_속성= (SELECT GROUP_CONCAT(a.대표_속성) FROM (SELECT 대표_속성 FROM '+fileName+'_category_attribute UNION SELECT 대표_속성 FROM '+fileName+'_statistic_attribute) a) WHERE 테이블_명 ="'+fileName+'"'
+        var sqlForKey = 'update scan_done_table SET 대표_결합키= (SELECT GROUP_CONCAT(a.대표_결합키) FROM (SELECT 대표_결합키 FROM '+fileName+'_category_attribute UNION SELECT 대표_결합키 FROM '+fileName+'_statistic_attribute) a) WHERE 테이블_명 ="'+fileName+'"'
         conn.query(sqlForProperty, (err,result)=>{
           console.log("속성");
         })

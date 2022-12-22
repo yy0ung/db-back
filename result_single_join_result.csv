@@ -1,0 +1,2 @@
+테이블A,테이블A_레코드_수,결합키_속성A,테이블B,테이블B_레코드_수,결합키_속성B,대표_결합키,결과_레코드_수,결합_성공률_W1,결합_성공률_W2
+2_physical_instructor_practice_info,2002,EMAIL_ADDRESS,1_fitness_measurement,1200,MAIL_ADDR,이메일 주소,701,0.3505,0.584166666
