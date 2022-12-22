@@ -1,0 +1,9 @@
+속성명,데이터_타입,NULL_레코드_수,NULL_레코드_비율,상이_범주_값,특수문자_포함_레코드_수,특수문자_포함_레코드_비율,대표_속성,결합키_후보,대표_결합키
+TEL_NO,text,0,0,2000,2000,1,회원정보,1,
+EMAIL_ADDRESS,text,0,0,2000,2000,1,,1,이메일 주소
+QUALF_GRAD_NM,text,0,0,2,2000,1,,,
+CRSE_NM,text,0,0,3,0,0,,,
+EMPR_NO,text,0,0,1997,0,0,,1,
+PRCTTQ_PSEXAM_FLAG_NM,text,0,0,3,26,0.013,,,
+LAST_PSEXAM_AT,text,0,0,2,0,0,,,
+QUALF_ITEM_NM,text,0,0,30,2000,1,,,
